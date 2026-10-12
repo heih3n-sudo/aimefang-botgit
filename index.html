@@ -1,0 +1,250 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aimefang Bot - AI Digital Assistant</title>
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f293d;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.25);
+      --danger: #ef4444;
+      --primary: #3b82f6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 0 1rem;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 2.5rem 0 4rem; }
+    
+    /* 1. HERO SECTION */
+    .hero { text-align: center; margin-bottom: 3.5rem; }
+    .avatar {
+      width: 76px; height: 76px; margin: 0 auto 1.25rem;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      border-radius: 20px; display: flex; align-items: center;
+      justify-content: center; font-size: 2.2rem;
+      box-shadow: 0 10px 25px var(--accent-glow);
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399; padding: 0.35rem 0.9rem; border-radius: 9999px;
+      font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;
+    }
+    .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .hero p { color: var(--text-muted); font-size: 1.15rem; max-width: 580px; margin: 0 auto; }
+
+    /* 2. PROBLEM & SOLUTION */
+    .section-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 1.25rem; text-align: center; }
+    .chaos-solution-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 3.5rem;
+    }
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 1.5rem;
+    }
+    .card h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .card-chaos h3 { color: #f87171; }
+    .card-solution h3 { color: #34d399; }
+    .card ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .card li { font-size: 0.95rem; color: #d1d5db; display: flex; align-items: flex-start; gap: 0.5rem; }
+
+    /* 3. CORE CAPABILITIES */
+    .capabilities-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 3.5rem;
+    }
+    .cap-card { text-align: center; padding: 1.5rem 1rem; }
+    .cap-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .cap-card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .cap-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* 4. INTERACTIVE SIMULATION */
+    .sim-container { margin-bottom: 3.5rem; }
+    .sim-box {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 14px; overflow: hidden;
+    }
+    .sim-header {
+      background: #0f172a; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--card-border);
+      font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between;
+    }
+    .chat-window { min-height: 200px; max-height: 280px; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.8rem; }
+    .bubble { max-width: 80%; padding: 0.65rem 0.95rem; border-radius: 12px; font-size: 0.9rem; }
+    .bubble-user { align-self: flex-end; background: #2563eb; color: #fff; border-bottom-right-radius: 2px; }
+    .bubble-bot { align-self: flex-start; background: #1e293b; color: #e2e8f0; border-bottom-left-radius: 2px; border: 1px solid #334155; }
+    .typing { font-style: italic; color: var(--text-muted); font-size: 0.85rem; display: none; margin-left: 0.5rem; }
+    .sim-actions {
+      display: flex; gap: 0.5rem; padding: 1rem; background: #0f172a; border-top: 1px solid var(--card-border);
+      flex-wrap: wrap; justify-content: center;
+    }
+    .btn-scenario {
+      background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+      padding: 0.5rem 0.85rem; border-radius: 8px; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .btn-scenario:hover { background: #334155; border-color: #64748b; }
+
+    /* 5. FOOTER & CTA */
+    .footer-cta { text-align: center; border-top: 1px solid var(--card-border); padding-top: 3rem; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: #25d366; color: #000; font-weight: 700;
+      padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none;
+      font-size: 1rem; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.45); }
+    .footer-sub { color: #64748b; font-size: 0.85rem; margin-top: 1.5rem; }
+
+    @media (max-width: 680px) {
+      .chaos-solution-grid, .capabilities-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 1. HERO SECTION -->
+    <header class="hero">
+      <div class="avatar">⚡</div>
+      <div class="badge">🟢 Status: Active & Ready 24/7</div>
+      <h1>Aimefang Bot</h1>
+      <p>Siap Membantu Setiap Saat — Pengawal Kotak Masuk & Otomasi Forward Email Tepat Sasaran</p>
+    </header>
+
+    <!-- 2. PROBLEM & SOLUTION CARD -->
+    <section>
+      <div class="chaos-solution-grid">
+        <div class="card card-chaos">
+          <h3><span>⚠️</span> The Chaos</h3>
+          <ul>
+            <li><span>✕</span> Email penting menumpuk tanpa pemantauan berkala.</li>
+            <li><span>✕</span> Forward ke bagian lain sering terlewat karena tidak terbaca.</li>
+            <li><span>✕</span> Penanganan terlambat berhari-hari dan alur operasional terhambat.</li>
+          </ul>
+        </div>
+        <div class="card card-solution">
+          <h3><span>✨</span> The Solution</h3>
+          <ul>
+            <li><span>✓</span> Otomatis mendeteksi inbox secara aktif tanpa jeda waktu.</li>
+            <li><span>✓</span> Analisis kriteria subjek/isi & forward langsung ke email tujuan.</li>
+            <li><span>✓</span> Laporan eksekusi terkirim instan ke kontak WhatsApp penanggung jawab.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CORE CAPABILITIES -->
+    <section>
+      <h2 class="section-title">Fitur & Arsitektur Utama</h2>
+      <div class="capabilities-grid">
+        <div class="card cap-card">
+          <div class="cap-icon">📬</div>
+          <h4>Monitoring Inbox</h4>
+          <p>Memantau surat masuk dari alamatmail@gmail.com secara terus-menerus dan akurat.</p>
+        </div>
+        <div class="card cap-card">
+          <div class="cap-icon">🎯</div>
+          <h4>Filter & Forward</h4>
+          <p>Mengevaluasi kriteria isi pesan spesifik lalu meneruskannya otomatis ke tujuan@gmail.com.</p>
+        </div>
+        <div class="card cap-card">
+          <div class="cap-icon">💬</div>
+          <h4>WhatsApp Alert</h4>
+          <p>Terhubung langsung via WhatsApp untuk rekap status tugas dan konfirmasi aksi selesai.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. INTERACTIVE SIMULATION -->
+    <section class="sim-container">
+      <h2 class="section-title">Simulasi Langsung Kinerja Agen</h2>
+      <div class="sim-box">
+        <div class="sim-header">
+          <span>Console Simulator</span>
+          <span>Aimefang Bot v1.0</span>
+        </div>
+        <div class="chat-window" id="chatWindow">
+          <div class="bubble bubble-bot">
+            Halo! Saya Aimefang Bot. Pilih salah satu skenario pengujian di bawah untuk melihat alur kerja saya.
+          </div>
+        </div>
+        <div class="typing" id="typingIndicator">Aimefang Bot sedang memproses...</div>
+        <div class="sim-actions">
+          <button class="btn-scenario" onclick="runScenario('check')">1. Deteksi Email Masuk</button>
+          <button class="btn-scenario" onclick="runScenario('forward')">2. Filter & Auto-Forward</button>
+          <button class="btn-scenario" onclick="runScenario('notify')">3. Konfirmasi Laporan WA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. FOOTER & CTA -->
+    <footer class="footer-cta">
+      <a href="https://wa.me/6285101559855" target="_blank" rel="noopener noreferrer" class="btn-cta">
+        <span>📲</span> Laporkan Aktivitas via WhatsApp
+      </a>
+      <p class="footer-sub">Built with AI · AI Builder Bootcamp Showcase</p>
+    </footer>
+  </div>
+
+  <script>
+    const chatWindow = document.getElementById('chatWindow');
+    const typing = document.getElementById('typingIndicator');
+    let isBusy = false;
+
+    const scenarios = {
+      check: {
+        user: "Aimefang, tolong periksa email terbaru dari alamatmail@gmail.com.",
+        bot: "Siap! Ditemukan 1 email baru dengan subjek 'Dokumen Tagihan Operasional'. Sedang mengecek kriteria filter isi pesan..."
+      },
+      forward: {
+        user: "Apakah isi email sesuai kriteria untuk diforward?",
+        bot: "Kriteria terpenuhi! Email telah berhasil di-forward otomatis ke tujuan@gmail.com tanpa jeda waktu. File lampiran disertakan utuh."
+      },
+      notify: {
+        user: "Kirim ringkasan aktivitas hari ini ke WhatsApp saya.",
+        bot: "Berhasil! Log diteruskan ke https://wa.me/6285101559855: 'Email ID #1042 berhasil diforward ke tujuan@gmail.com pada 23:21 WIB. Tugas selesai!'"
+      }
+    };
+
+    function runScenario(key) {
+      if (isBusy) return;
+      isBusy = true;
+      const data = scenarios[key];
+
+      appendMessage(data.user, 'bubble-user');
+      typing.style.display = 'block';
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+
+      setTimeout(() => {
+        typing.style.display = 'none';
+        appendMessage(data.bot, 'bubble-bot');
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        isBusy = false;
+      }, 950);
+    }
+
+    function appendMessage(text, className) {
+      const msg = document.createElement('div');
+      msg.className = `bubble ${className}`;
+      msg.textContent = text;
+      chatWindow.appendChild(msg);
+    }
+  </script>
+</body>
+</html>
+
+```
+
+Simpan kode ini sebagai index.html, lalu ikuti panduan deploy di materi bootcamp.
